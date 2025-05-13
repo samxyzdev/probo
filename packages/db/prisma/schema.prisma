@@ -14,20 +14,15 @@ datasource db {
 }
 
 model User {
-  id               String            @id @default(uuid())
-  username         String            @unique
-  firstname        String
-  lastname         String
-  password         String
-  tradePrice       TradePrice[]
-  UserWalletBalane UserWalletBalane?
-}
-
-model TradePrice {
-  id        String @id @default(uuid())
-  price     String
-  userId    String
-  tradingId User   @relation(fields: [userId], references: [id])
+  id                String            @id @default(uuid())
+  username          String            @unique
+  firstname         String
+  lastname          String
+  password          String
+  trades            Trade[]
+  UserWalletBalance UserWalletBalane?
+  createdAt         DateTime          @default(now())
+  updatedAT         DateTime          @default(now())
 }
 
 model UserWalletBalane {
@@ -37,10 +32,20 @@ model UserWalletBalane {
   user   User   @relation(fields: [userId], references: [id])
 }
 
+model Trade {
+  id      String       @id @default(uuid())
+  price   String
+  userId  String
+  user    User         @relation(fields: [userId], references: [id])
+  eventId String
+  event   EventToTrade @relation(fields: [eventId], references: [id])
+}
+
 model EventToTrade {
-  id        String     @id @default(uuid())
+  id        String      @id @default(uuid())
   eventName String
-  orderBook OrderBook?
+  orderBook OrderBook[]
+  trades    Trade[]
 }
 
 model OrderBook {
