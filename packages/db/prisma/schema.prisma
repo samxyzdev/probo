@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String            @id @default(uuid())
+  username         String            @unique
+  firstname        String
+  lastname         String
+  password         String
+  tradePrice       TradePrice[]
+  UserWalletBalane UserWalletBalane?
+}
+
+model TradePrice {
+  id        String @id @default(uuid())
+  price     String
+  userId    String
+  tradingId User   @relation(fields: [userId], references: [id])
+}
+
+model UserWalletBalane {
+  id     String @id @default(uuid())
+  amount String
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model EventToTrade {
+  id        String     @id @default(uuid())
+  eventName String
+  orderBook OrderBook?
+}
+
+model OrderBook {
+  id      String       @id @default(uuid())
+  price   String
+  qty     String
+  opinion Boolean
+  eventId String       @unique
+  Event   EventToTrade @relation(fields: [eventId], references: [id])
+}
