@@ -3,6 +3,7 @@ import { prisma } from "@rep/db/prisma";
 import { SignupUser, SigninUser } from "@repo/zod/zodSchema";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { authMiddleware, MiddlewareRequest } from "./middleware.js";
 
 export const JWT_SECRET = "12345314";
 
@@ -67,7 +68,9 @@ app.post("/signin", async (req, res) => {
   });
 });
 
-app.get("/:eventId", (req, res) => {});
+app.get("/:eventId", authMiddleware, (req: MiddlewareRequest, res) => {
+  console.log(req.id);
+});
 app.post("/trade", (req, res) => {});
 app.get("/orderbook", (req, res) => {});
 app.get("/walletBalance", (req, res) => {});
