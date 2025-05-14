@@ -10,8 +10,14 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@rep/db": "*",
+    "@repo/typescript-config": "*",
+    "@repo/zod": "*",
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "bcrypt": "^6.0.0",
     "express": "^5.1.0",
-    "@repo/typescript-config": "*"
+    "jsonwebtoken": "^9.0.2"
   }
 }
